@@ -1,9 +1,11 @@
 import express, { Router } from "express";
 import { authenticateUser } from "../../auth/tools.js";
-import UsersModel from "./user-schema.js";
-import passport from "passport";
-import { JWTAuthMiddleware } from "../../auth/JWTAuthMiddleware.js";
-const usersRouter = Router();
+import UsersModel from "./user-schema.js"
+import passport from 'passport'
+import {JWTAuthMiddleware} from '../../auth/JWTAuthMiddleware.js'
+import createError from "http-errors";
+import { adminMiddleware } from "../../auth/adminMiddleware.js";
+const usersRouter = Router()
 /************************* Register a new User Route  *************************/
 usersRouter.post("/register", async (req, res, next) => {
   try {
@@ -57,13 +59,89 @@ usersRouter.get(
   }
 );
 
-/************************* Get User Route  *************************/
-usersRouter.get("/me", JWTAuthMiddleware, async (req, res, next) => {
-  try {
-    res.status(201).send(req.user);
-  } catch (error) {
-    next(error);
-  }
-});
+/************************* Get All User by Admin Route  *************************/
+usersRouter.get("/", JWTAuthMiddleware,adminMiddleware, async(req, res, next) => {
 
-export default usersRouter;
+    try {
+        const reqUsers = await UsersModel.find()
+        if(reqUsers){
+            res.status(201).send(reqUsers)
+        } else {
+            next(createError(404, "user not found"))
+
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
+/************************* Get User by from Route  *************************/
+usersRouter.get("/me", JWTAuthMiddleware, async(req, res, next) => {
+
+    try {
+        const reqUser = await UsersModel.findById(req.user._id)
+        if(reqUser){
+            res.status(201).send(reqUser)
+        } else {
+            next(createError(404, "user not found"))
+
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
+/************************* Edit User by from Route  *************************/
+usersRouter.put("/me", JWTAuthMiddleware, async(req, res, next) => {
+
+    try {
+        const reqUser = await UsersModel.findByIdAndUpdate(
+                        req.user._id,
+                        req.body,
+                        {new:true})
+        if(reqUser){
+            res.status(201).send(reqUser)
+        } else {
+            next(createError(404, "user not found"))
+
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
+/************************* delete User by from Route  *************************/
+usersRouter.delete("/me", JWTAuthMiddleware, async(req, res, next) => {
+
+    try {
+        const reqUser = await UsersModel.findByIdAndDelete(req.user._id)
+        if(reqUser){
+            res.status(204).send(reqUser)
+        } else {
+            next(createError(404, "user not found"))
+
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
+/************************* delete User by from Route  *************************/
+usersRouter.delete("/me", JWTAuthMiddleware,  async(req, res, next) => {
+
+    try {
+        const reqUser = await UsersModel.findByIdAndDelete(req.user._id)
+        if(reqUser){
+            res.status(204).send(reqUser)
+        } else {
+            next(createError(404, "user not found"))
+
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+
+
+
+export default usersRouter
