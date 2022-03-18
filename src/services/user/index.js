@@ -12,7 +12,7 @@ usersRouter.post("/register", async (req, res, next) => {
     console.log("savedUser", savedUser);
     const token = await authenticateUser(savedUser);
     console.log("token", token);
-    res.status(201).send({ _id: savedUser._id, token: token });
+    res.send({ _id: savedUser._id, token: token });
   } catch (error) {
     next(error);
   }
