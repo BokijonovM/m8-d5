@@ -29,7 +29,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.7",
     "passport": "^0.5.2",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "query-to-mongo": "^0.10.2"
   },
   "devDependencies": {
     "dotenv": "^16.0.0",
