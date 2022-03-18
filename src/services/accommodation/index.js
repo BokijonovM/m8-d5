@@ -70,15 +70,24 @@ accRouter.put("/:id",JWTAuthMiddleware, hostMiddleware, async (req, res, next) =
 accRouter.delete("/:id", JWTAuthMiddleware, hostMiddleware, async (req, res, next) => {
   try {
     const accId = req.params.id;
-    const deletedAcc = await AccommodationModel.findByIdAndDelete(accId);
-    if (deletedAcc) {
-      res.status(204).send(`Accommodation with id ${accId} deleted!`);
-    } else {
-      res.status(404).send(`Accommodation with id ${accId} not found!`);
-    }
+    const accommodation = await AccommodationModel.findById(accId)
+    if (accommodation) {
+      console.log("accommodation.host",accommodation.host,"req.user._id", req.user._id)
+      if(accommodation.host.toString() === req.user._id){
+        await AccommodationModel.findByIdAndDelete(accId);
+        res.status(204).send(`Accommodation with id ${accId} deleted!`);
+          } else {
+            next(createHttpError(403, "you are not authorised to delete this property"))
+          }
+      } else {
+        res.status(404).send(`Accommodation with id ${accId} not found!`);
+      }
   } catch (error) {
     next(error);
   }
 });
+  
+  
+
 
 export default accRouter;
