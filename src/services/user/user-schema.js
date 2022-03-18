@@ -7,7 +7,7 @@ name : {type:String, required:true},
 surname: {type:String, required:true},
 email : {type:String},
 password : {type:String},
-role : {type:String, enum:["host","guest"], default:'guest'}
+role : {type:String, enum:["host","guest", "admin"], default:'guest'}
 },
 {
     timestamps:true,
