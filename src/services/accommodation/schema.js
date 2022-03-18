@@ -7,11 +7,11 @@ const accommodationSchema = new Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     maxGuests: { type: Number, required: true },
-    host: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "Users",
-    },
+    // host: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   required: true,
+    //   ref: "Users",
+    // },
   },
   {
     timestamps: true,
