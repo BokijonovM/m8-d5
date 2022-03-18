@@ -8,7 +8,7 @@ import listEndpoints from "express-list-endpoints";
 import cors from "cors";
 import mongoose from "mongoose";
 import passport from "passport";
-import accRouter from "./services/accommodation/index.js";
+import accRouter from "./services/accommodation/index.js"
 import usersRouter from "./services/user/index.js";
 import googleStrategy from "./auth/Oauth.js";
 

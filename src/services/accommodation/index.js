@@ -2,31 +2,34 @@ import express from "express";
 import createHttpError from "http-errors";
 import AccommodationModel from "./schema.js";
 import q2m from "query-to-mongo";
+import { JWTAuthMiddleware } from "../../auth/JWTAuthMiddleware.js";
+import { hostMiddleware } from "../../auth/hostMiddleware.js";
 
 const accRouter = express.Router();
 
-accRouter.post("/", async (req, res, next) => {
+accRouter.post("/", JWTAuthMiddleware, hostMiddleware,  async (req, res, next) => {
   try {
-    const newAcc = new AccommodationModel({
-      ...req.body,
-    });
-    const { _id } = await newAcc.save();
+    
+    const newAcc = { ...req.body, host:req.user._id}
+    const savedAcc = new AccommodationModel(newAcc);
+    const { _id } = await savedAcc.save();
     res.status(201).send(newAcc);
   } catch (error) {
     next(error);
   }
 });
 
-accRouter.get("/", async (req, res, next) => {
+accRouter.get("/",  JWTAuthMiddleware, hostMiddleware, async (req, res, next) => {
   try {
-    const accommodation = await AccommodationModel.find();
+    console.log(req.headers)
+    const accommodation = await AccommodationModel.find({host: req.user._id});
     res.send(accommodation);
   } catch (error) {
     next(error);
   }
 });
 
-accRouter.get("/:id", async (req, res, next) => {
+accRouter.get("/:id", JWTAuthMiddleware, hostMiddleware, async (req, res, next) => {
   try {
     const accId = req.params.id;
 
@@ -41,27 +44,30 @@ accRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-accRouter.put("/:id", async (req, res, next) => {
+accRouter.put("/:id",JWTAuthMiddleware, hostMiddleware, async (req, res, next) => {
   try {
     const accId = req.params.id;
-    const updatedAcc = await AccommodationModel.findByIdAndUpdate(
-      accId,
-      req.body,
-      {
-        new: true,
+    const accommodation = await AccommodationModel.findById(accId)
+    if (accommodation) {
+      if(accommodation.host === req.user._id){
+        const updatedAcc = await AccommodationModel.findByIdAndUpdate(
+          accId,
+          req.body,
+          { new: true }
+          );
+            res.send(updatedAcc);
+          } else {
+            next(createHttpError(403, "you are not authorised to edit this property"))
+          }
+      } else {
+        res.status(404).send(`Accommodation with id ${accId} not found!`);
       }
-    );
-    if (updatedAcc) {
-      res.send(updatedAcc);
-    } else {
-      res.status(404).send(`Accommodation with id ${accId} not found!`);
-    }
   } catch (error) {
     next(error);
   }
 });
 
-accRouter.delete("/:id", async (req, res, next) => {
+accRouter.delete("/:id", JWTAuthMiddleware, hostMiddleware, async (req, res, next) => {
   try {
     const accId = req.params.id;
     const deletedAcc = await AccommodationModel.findByIdAndDelete(accId);

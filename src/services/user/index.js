@@ -25,7 +25,7 @@ usersRouter.post("/login", async (req, res, next) => {
   try {
     try {
       const { email, password } = req.body;
-
+        console.log(email, password)
       const user = await UsersModel.checkCredentials(email, password);
       if (user) {
         const token = await authenticateUser(user);
