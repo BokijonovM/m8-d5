@@ -21,17 +21,28 @@ usersRouter.post("/register", async(req, res, next) => {
 })
 
 /************************* Get User Route  *************************/
-usersRouter.get("/", async(req, res, next) => {
+usersRouter.post("/login", async(req, res, next) => {
 
-    try {
-        const users = await UsersModel.find()
-        res.status(201).send(users)
+    try { 
+        try {
+            const {email,password} = req.body;
+
+            const user = await UsersModel.checkCredentials(email, password)
+          if(user){
+            const token = await authenticateUser(user)
+            res.send({ token:token, _id : user._id });
+          } else {
+            next(createError(401, "Credentials are not oK !!!"))
+          }
+            
+          } catch (error) {
+            next(error);
+          }
     } catch (error) {
         next(error)
     }
 
 })
-
 
 /************************* Get google login Route  *************************/
 usersRouter.get("/googleLogin", passport.authenticate("google",{scope : ["email", "profile"]}) )
@@ -39,21 +50,19 @@ usersRouter.get("/googleLogin", passport.authenticate("google",{scope : ["email"
 /************************* google login  redirect Route  *************************/
 usersRouter.get("/googleRedirect", passport.authenticate("google"), (req, res, next) => {
     try {
-        console.log('i am back')
+        
         const token = req.user.token
-        console.log('i am back with token', token)
-        console.log("my token", req.user.token)
         res.redirect(`${process.env.FE_URL}/home?token=${req.user.token}`)
     } catch (error) {
         
     }
 } )
-/************************* Get User Route  *************************/
-usersRouter.post("/login", authenticateUser, async(req, res, next) => {
 
-    try { 
-        console.log(req)
-        res.status(200).send()
+/************************* Get User Route  *************************/
+usersRouter.get("/me", JWTAuthMiddleware, async(req, res, next) => {
+
+    try {
+        res.status(201).send(req.user)
     } catch (error) {
         next(error)
     }

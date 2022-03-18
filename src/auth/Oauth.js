@@ -12,19 +12,22 @@ const googleStrategy = new GoogleStrategy({
     async(accessToken, refreshToken, profile, passportNext) =>{
         try {
             const user = await UserModel.findOne({email : profile.emails[0].value})
+            console.log("user", user)
             if(user){
                 const token = await authenticateUser(user)
-                passportNext(null, {token, role:authorize.role})
+                console.log("user FOUND", token)
+                passportNext(null, {token, role:user.role})
             }else{
                 
                 const newUser = new UserModel({
-                    name : profile.name.given_name,
+                    name : profile.name.givenName,
                     surname : profile.name.familyName || "not set",
                     email : profile.emails[0].value,
                     avatar : profile.photos[0].value,
                     googleId : profile.id
                 })
-
+                
+                console.log("OLD user FOUND", newUser)
                 const savedUser = newUser.save()
                 const token  = await authenticateUser(savedUser)
                 console.log("new user saved and token is", token)
