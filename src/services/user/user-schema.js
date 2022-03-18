@@ -25,12 +25,23 @@ UserSchema.pre("save", async function(next){
     next()
 })
 
-// 
+// hide the password from the response
 UserSchema.methods.toJSON = function(){
     const userDocument = this
     const userObject = userDocument.toObject()
     delete userObject.password
     return userObject
+}
+
+// checking the credentials email and password
+UserSchema.statics.checkCredentials = async function(email, plainPw){
+
+    const author = await this.findOne({email})
+    if(author){
+        const isMatched = await bcrypt.compare(plainPw, user.password)
+        const result = isMatched? author : null
+        return result
+    } else null
 }
 
 export default model("User", UserSchema)
