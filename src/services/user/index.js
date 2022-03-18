@@ -54,7 +54,7 @@ usersRouter.get(
   (req, res, next) => {
     try {
       const token = req.user.token;
-      res.redirect(`${process.env.FE_URL}?token=${req.user.token}`);
+      res.redirect(`${process.env.FE_URL}/home?token=${req.user.token}`);
     } catch (error) {}
   }
 );
