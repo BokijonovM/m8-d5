@@ -49,4 +49,3 @@ mongoose.connection.on("connected", () => {
 server.on("error", (error) => {
   console.log("server has stopped  ", error);
 });
-
