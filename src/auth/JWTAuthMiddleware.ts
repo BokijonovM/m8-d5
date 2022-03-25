@@ -1,6 +1,7 @@
 import createError from "http-errors";
 import { verifyJWTToken } from "./tools";
 import { Request, Response, NextFunction } from "express";
+import { IRequestWithUser } from "./adminMiddleware";
 
 export interface reqUser {
   _id: string;
@@ -8,7 +9,7 @@ export interface reqUser {
 }
 
 export const JWTAuthMiddleware = async (
-  req: Request,
+  req: IRequestWithUser,
   res: Response,
   next: NextFunction
 ) => {

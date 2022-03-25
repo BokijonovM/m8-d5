@@ -1,7 +1,14 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import bcrypt from "bcrypt";
+import { IUser } from "../../types";
 
 const { Schema, model } = mongoose;
+
+export interface IUserDocument extends IUser, Document {}
+
+interface IUserModel extends Model<IUser> {
+  checkCredentials: (email: string, plainPw: string) => Promise<IUser | null>;
+}
 const UserSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -44,4 +51,4 @@ UserSchema.statics.checkCredentials = async function (email, plainPw) {
   } else null;
 };
 
-export default model("User", UserSchema);
+export default model<IUser, IUserModel>("User", UserSchema);

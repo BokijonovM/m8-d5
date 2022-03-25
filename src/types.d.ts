@@ -3,8 +3,7 @@ interface IPayload {
   _id: string;
 }
 
-interface IUser {
-  _id: string;
+export interface IUser extends Document {
   name: string;
   surname: string;
   email: string;

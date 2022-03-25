@@ -4,7 +4,7 @@ import UsersModel from "./user-schema.js";
 import passport from "passport";
 import { JWTAuthMiddleware } from "../../auth/JWTAuthMiddleware";
 import createError from "http-errors";
-import { adminMiddleware } from "../../auth/adminMiddleware";
+import { adminMiddleware, IRequestWithUser } from "../../auth/adminMiddleware";
 const usersRouter = Router();
 /************************* Register a new User Route  *************************/
 usersRouter.post("/register", async (req, res, next) => {
@@ -51,7 +51,7 @@ usersRouter.get(
 usersRouter.get(
   "/googleRedirect",
   passport.authenticate("google"),
-  (req, res, next) => {
+  (req: IRequestWithUser, res, next) => {
     try {
       const token = req.user?.token;
       res.redirect(`${process.env.FE_URL}/home?token=${req.user?.token}`);
@@ -64,7 +64,7 @@ usersRouter.get(
   "/",
   JWTAuthMiddleware,
   adminMiddleware,
-  async (req, res, next) => {
+  async (req: IRequestWithUser, res, next) => {
     try {
       const reqUsers = await UsersModel.find();
       if (reqUsers) {
