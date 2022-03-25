@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/BokijonovM/m8-d5#readme",
   "dependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express-list-endpoints": "^6.0.0",
+    "@types/http-errors": "^1.8.2",
+    "@types/passport": "^1.0.7",
     "atob": "^2.1.2",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
