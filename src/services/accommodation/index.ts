@@ -1,8 +1,8 @@
 import { Router, Request, Response, NextFunction } from "express";
 import createError from "http-errors";
 import AccomodationModel from "./schema";
-import { JWTAuthMiddleware } from "../../auth/JWTAuthMiddleware.js";
-import { hostMiddleware } from "../../auth/hostMiddleware.js";
+import { JWTAuthMiddleware } from "../../auth/JWTAuthMiddleware";
+import { hostMiddleware } from "../../auth/hostMiddleware";
 import { DbAccomodation } from "./schemaInterface";
 
 const accRouter = Router();
