@@ -27,3 +27,8 @@ export interface UserRole {
   user: string;
   role: IRole;
 }
+declare namespace Express {
+  export interface user {
+    role?: string;
+  }
+}

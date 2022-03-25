@@ -1,6 +1,5 @@
 import createError from "http-errors";
-import { Router, Request, Response, NextFunction } from "express";
-import { UserRole } from "../types";
+import { Request, Response, NextFunction } from "express";
 
 export const hostMiddleware = (
   req: Request,
