@@ -1,26 +1,19 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-export const user = {
-  _id : tring,
-  name : string,
-  surname: string,
-  email : string,
-  password : string,
-  role : string
-}
-const {Schema, model} = mongoose
-const UserSchema = new Schema({
-name : {type:String, required:true},
-surname: {type:String, required:true},
-email : {type:String},
-password : {type:String},
-role : {type:String, enum:["host","guest", "admin"], default:'guest'}
-},
-{
-    timestamps:true,
-}
-)
+const { Schema, model } = mongoose;
+const UserSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    surname: { type: String, required: true },
+    email: { type: String },
+    password: { type: String },
+    role: { type: String, enum: ["host", "guest", "admin"], default: "guest" },
+  },
+  {
+    timestamps: true,
+  }
+);
 //  hashing the password
 UserSchema.pre("save", async function (next) {
   const newUser = this;

@@ -1,16 +1,30 @@
 import mongoose from "mongoose";
+import { AccomodationModel, DbAccomodation } from "./schemaInterface";
 
 const { Schema, model } = mongoose;
 
-const accommodationSchema = new Schema(
+const AccomodationSchema = new Schema<DbAccomodation>(
   {
-    name: { type: String, required: true },
-    description: { type: String, required: true },
-    maxGuests: { type: Number, required: true }, 
-    host: {
-      type: mongoose.Schema.Types.ObjectId,
+    name: {
+      type: String,
       required: true,
-      ref: "Users",
+    },
+    maxGuests: {
+      type: Number,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    host: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
   },
   {
@@ -18,17 +32,7 @@ const accommodationSchema = new Schema(
   }
 );
 
-// accommodationSchema.static("findAccommodationWithUser", async function (mongoQuery) {
-//   const total = await this.countDocuments(mongoQuery.criteria);
-//   const posts = await this.find(mongoQuery.criteria)
-//     .limit(mongoQuery.options.limit)
-//     .skip(mongoQuery.options.skip)
-//     .sort(mongoQuery.options.sort)
-//     .populate({
-//       path: "user",
-//       select: "firstName lastName",
-//     });
-//   return { total, posts };
-// });
-
-export default model("Accommodation", accommodationSchema);
+export default model<DbAccomodation, AccomodationModel>(
+  "Accomodation",
+  AccomodationSchema
+);
