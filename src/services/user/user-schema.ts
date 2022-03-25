@@ -1,14 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-export const user = {
-  _id : tring,
-  name : string,
-  surname: string,
-  email : string,
-  password : string,
-  role : string
-}
 const {Schema, model} = mongoose
 const UserSchema = new Schema({
 name : {type:String, required:true},

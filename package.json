@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -r dotenv/config -e js ./src/server.js"
+    "dev": "nodemon -r dotenv/config -e js ./src/server.js",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "watch": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --watchAll"
   },
   "repository": {
     "type": "git",
