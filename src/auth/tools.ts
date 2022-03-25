@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { IPayload, IUser } from '../types'
 
 
 export const authenticateUser = async (user : IUser)=> {

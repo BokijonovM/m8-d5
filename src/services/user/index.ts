@@ -1,10 +1,10 @@
 import express, { Router } from "express";
-import { authenticateUser } from "../../auth/tools.js";
+import { authenticateUser } from "../../auth/tools";
 import UsersModel from "./user-schema.js"
 import passport from 'passport'
-import {JWTAuthMiddleware} from '../../auth/JWTAuthMiddleware.js'
+import {JWTAuthMiddleware} from '../../auth/JWTAuthMiddleware'
 import createError from "http-errors";
-import { adminMiddleware } from "../../auth/adminMiddleware.js";
+import { adminMiddleware } from "../../auth/adminMiddleware";
 const usersRouter = Router()
 /************************* Register a new User Route  *************************/
 usersRouter.post("/register", async (req, res, next) => {

@@ -1,8 +1,8 @@
 import createError from 'http-errors'
 import passport from 'passport'
 import GoogleStrategy from 'passport-google-oauth20'
-import UserModel from "../services/user/user-schema.js"
-import { authenticateUser } from './tools.js'
+import UserModel from "../services/user/user-schema"
+import { authenticateUser } from './tools'
 
 const googleStrategy = new GoogleStrategy({
     clientID : process.env.GOOGLE_ID,
