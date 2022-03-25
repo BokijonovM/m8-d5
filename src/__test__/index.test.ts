@@ -8,7 +8,7 @@ dotenv.config()
 
 const client = supertest(server)
 if(!process.env.MONGO_URL_TEST){
-    throw er
+    throw Error
 }
 
 interface IUser  {
