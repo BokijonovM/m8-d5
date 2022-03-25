@@ -15,7 +15,7 @@ import dotenv from "dotenv";
 
 process.env.TS_NODE_DEV && require("dotenv").config();
 
- const server = express();
+export const server = express();
 const port = process.env.PORT || 3001;
 
 passport.use("google", googleStrategy);
@@ -49,5 +49,3 @@ mongoose.connection.on("connected", () => {
 server.on("error", (error) => {
   console.log("server has stopped  ", error);
 });
-
-export {server}

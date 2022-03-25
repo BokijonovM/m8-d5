@@ -6,7 +6,7 @@ export const adminMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  if (req.user.role === "admin") {
+  if (req.user?.role === "admin") {
     next();
   } else {
     next(createError(403, "only host is allowed to post a place"));
