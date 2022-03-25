@@ -8,11 +8,10 @@ import listEndpoints from "express-list-endpoints";
 import cors from "cors";
 import mongoose from "mongoose";
 import passport from "passport";
-import accRouter from "./services/accommodation/index.js";
-import usersRouter from "./services/user/index.js";
-import googleStrategy from "./auth/Oauth.js";
-import dotenv from 'dotenv'
-
+import accRouter from "./services/accommodation/index";
+import usersRouter from "./services/user/index";
+import googleStrategy from "./auth/Oauth";
+import dotenv from "dotenv";
 
 process.env.TS_NODE_DEV && require("dotenv").config();
 
@@ -34,9 +33,8 @@ server.use(unauthorizedHandler);
 server.use(forbiddenHandler);
 server.use(catchAllHandler);
 
-if(!process.env.MONGO_CONNECTION){
+if (!process.env.MONGO_CONNECTION) {
   throw console.log("mongo connection is undefined");
-  
 }
 mongoose.connect(process.env.MONGO_CONNECTION);
 
