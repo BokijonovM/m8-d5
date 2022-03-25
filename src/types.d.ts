@@ -8,6 +8,7 @@ interface IUser  {
     name : string,
     surname: string,
     email : string,
-    password : string,
-    role : string
+    password?: string,
+    role : string,
+    token?:string
 }
