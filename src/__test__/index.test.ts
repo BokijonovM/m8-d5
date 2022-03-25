@@ -5,8 +5,7 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-const client = supertest(server)
-const MONGO_URL_TEST = process.env.MONGO_URL_TEST!
+
 
 interface IUser  {
     name : string,
@@ -20,6 +19,9 @@ let wrongToken : string
 
 describe("Testing the chat endpoints", () => {
 
+    const client = supertest(server)
+const MONGO_URL_TEST = process.env.MONGO_URL_TEST!
+
     beforeAll(done => {
         // console.log(process.env.MONGO_URL_TEST)
         mongoose.connect(MONGO_URL_TEST)
@@ -29,14 +31,6 @@ describe("Testing the chat endpoints", () => {
             })
     })
 
-    afterAll(done => {
-        mongoose.connection.dropDatabase().then(() => {
-            return mongoose.connection.close()
-        }).then(() => {
-            console.log("Dropped database and closed connection")
-            done()
-        })
-    })
 
     it("should work", () => {
         expect(true).toBe(true);
@@ -104,6 +98,20 @@ describe("Testing the chat endpoints", () => {
  })
 
 
+ /******************* get all by admin ******************/
+ it("should create a new user using get /", async () => {
+    const response = await client.get('/me').set("authorization", token)
+    
+    expect(response.status).toBe(201)
+    })
+    
+    
+    /******************* cannot get  by user ******************/
+    it(" missing data should not create a new user using POST /register", async () => {
+        const response = await client.get('/').set("authorization", wrongToken)
+        expect(response.status).toBe(401)
+    })
+
  /******************* get me ******************/
  it("should create a new user using POST /me", async () => {
  const response = await client.put('/me').set("authorization", token)
@@ -138,5 +146,15 @@ describe("Testing the chat endpoints", () => {
         
         expect(response.status).toBe(401)
     })
+
+
+
+    afterAll(async() => {
+        await mongoose.connection.dropDatabase()
+        await mongoose.connection.close()
+        
+            console.log("Dropped database and closed connection")
+           
+        })
 
 })
