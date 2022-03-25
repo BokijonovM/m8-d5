@@ -6,6 +6,10 @@ import dotenv from "dotenv"
 dotenv.config()
 
 
+const client = supertest(server)
+if(!process.env.MONGO_URL_TEST){
+    throw er
+}
 
 interface IUser  {
     name : string,
@@ -19,8 +23,6 @@ let wrongToken : string
 
 describe("Testing the chat endpoints", () => {
 
-    const client = supertest(server)
-const MONGO_URL_TEST = process.env.MONGO_URL_TEST!
 
     beforeAll(done => {
         // console.log(process.env.MONGO_URL_TEST)
@@ -158,3 +160,5 @@ const MONGO_URL_TEST = process.env.MONGO_URL_TEST!
         })
 
 })
+
+

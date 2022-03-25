@@ -2,9 +2,9 @@
   "ts-node": {
     "files": true
   },
+  "typeRoots": ["./node_module/@types", "./src/types"],
 
   "compilerOptions": {
-    "typeRoots": ["./node_module/@types", "./src/types"],
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Projects */
