@@ -2,6 +2,11 @@ import createError from "http-errors";
 import { verifyJWTToken } from "./tools";
 import { Request, Response, NextFunction } from "express";
 
+export interface reqUser {
+  _id: string;
+  role: string;
+}
+
 export const JWTAuthMiddleware = async (
   req: Request,
   res: Response,
@@ -16,10 +21,11 @@ export const JWTAuthMiddleware = async (
     try {
       const token = req.headers.authorization.replace("Bearer ", "");
       const payload: any = await verifyJWTToken(token);
-      req.user = {
+      const user: reqUser = {
         _id: payload._id,
         role: payload.role,
       };
+      req.user = user;
       next();
     } catch (error) {
       console.log(error);
