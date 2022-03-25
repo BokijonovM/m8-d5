@@ -2,7 +2,8 @@ import { server } from "../server";
 import supertest from "supertest";
 import mongoose from "mongoose";
 process.env.TS_NODE_DEV && require("dotenv").config();
-
+  const client = supertest(server);
+  const MONGO_URL_TEST = process.env.MONGO_URL_TEST!;
 interface IUser {
   name: string;
   surname: string;
@@ -14,8 +15,7 @@ let token: string;
 let wrongToken: string;
 
 describe("Testing the chat endpoints", () => {
-  const client = supertest(server);
-  const MONGO_URL_TEST = process.env.MONGO_URL_TEST!;
+
 
   beforeAll((done) => {
     // console.log(process.env.MONGO_URL_TEST)
