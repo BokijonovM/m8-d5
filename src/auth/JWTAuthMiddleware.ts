@@ -1,5 +1,5 @@
 import createError from "http-errors";
-import { verifyJWTToken } from "./tools.js";
+import { verifyJWTToken } from "./tools";
 import { Request, Response, NextFunction } from "express";
 
 export const JWTAuthMiddleware = async (

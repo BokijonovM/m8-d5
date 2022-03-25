@@ -1,25 +1,20 @@
 import { server } from "../server";
 import supertest from "supertest";
 import mongoose from "mongoose";
+
 process.env.TS_NODE_DEV && require("dotenv").config();
 
-interface IUser {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  role: string;
-}
-let token: string;
-let wrongToken: string;
+const client = supertest(server);
+
+let token ='';
+let wrongToken = '';
 
 describe("Testing the chat endpoints", () => {
-  const client = supertest(server);
-  const MONGO_URL_TEST = process.env.MONGO_URL_TEST!;
+//   const MONGO_URL_TEST = process.env.MONGO_URL_TEST!;
 
   beforeAll((done) => {
     // console.log(process.env.MONGO_URL_TEST)
-    mongoose.connect(MONGO_URL_TEST).then(() => {
+    mongoose.connect(process.env.MONGO_URL_TEST!).then(() => {
       console.log("Connected to Mongo DB in test...");
       done();
     });
@@ -28,64 +23,6 @@ describe("Testing the chat endpoints", () => {
   it("should work", () => {
     expect(true).toBe(true);
   });
-
-  const newUser = {
-    name: "Test Name",
-    surname: "Test Surname",
-    email: "test@email.com",
-    password: "Testpassword",
-    role: "user",
-  };
-
-  const incompleteUser = {
-    name: "Test Name",
-    surname: "Test Surname",
-    role: "user",
-  };
-
-  /******************* Posting new user ******************/
-  it("should create a new user using POST /register", async () => {
-    const response = await client.post("/register").send(newUser);
-    expect(response.status).toBe(201);
-    token = response.body.token;
-    // expect(response.body.token).toBeDefined()
-  });
-
-  /******************* Posting incomplete user ******************/
-  it(" missing data should not create a new user using POST /register", async () => {
-    const response = await client.post("/register").send(incompleteUser);
-
-    expect(response.status).toBe(401);
-  });
-
-const client = supertest(server)
-if(!process.env.MONGO_URL_TEST){
-    throw Error
-}
-
-  const wrongloginUser = {
-    email: "wrong@email.com",
-    password: "wrongpassword",
-  };
-
-  /******************* login  ******************/
-  it("should create a new user using POST /register", async () => {
-    const response = await client.post("/register").send(loginUser);
-
-
-    beforeAll(done => {
-        // console.log(process.env.MONGO_URL_TEST)
-        mongoose.connect(MONGO_URL_TEST)
-            .then(() => {
-                console.log("Connected to Mongo DB in test...")
-                done()
-            })
-    })
-
-
-    it("should work", () => {
-        expect(true).toBe(true);
-    })
 
    const newUser = {
     name : "Test Name",
