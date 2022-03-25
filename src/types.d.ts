@@ -13,6 +13,10 @@ interface IUser {
   token?: string;
 }
 
+export interface tokenT {
+  token: string;
+}
+
 export type IRole = "Host" | "Guest" | "admin";
 
 export interface JWTPayload {

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "watch": "jest --watchAll",
-    "dev": "ts-node-dev ./src/server.ts",
+    "dev": "ts-node-dev ./src/server",
     "start": "node ./build",
     "build": "npx tsc"
   },

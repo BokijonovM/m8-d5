@@ -1,8 +1,8 @@
 {
   "ts-node": {
     "files": true
-  },  
-    "compilerOptions": {
+  },
+  "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Projects */
