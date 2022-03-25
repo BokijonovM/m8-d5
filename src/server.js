@@ -23,7 +23,7 @@ server.use(passport.initialize());
 
 /************************** Routes ****************************/
 server.use("/users", usersRouter);
-server.use("/accommodation", accRouter);
+server.use("/accommodations", accRouter);
 
 /************************** Error Handler ****************************/
 server.use(unauthorizedHandler);

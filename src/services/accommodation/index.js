@@ -7,6 +7,7 @@ import { hostMiddleware } from "../../auth/hostMiddleware.js";
 
 const accRouter = express.Router();
 
+/************************** Post a new accommodation ******************************/
 accRouter.post("/", JWTAuthMiddleware, hostMiddleware,  async (req, res, next) => {
   try {
     
@@ -19,7 +20,19 @@ accRouter.post("/", JWTAuthMiddleware, hostMiddleware,  async (req, res, next) =
   }
 });
 
-accRouter.get("/",  JWTAuthMiddleware, hostMiddleware, async (req, res, next) => {
+/************************** get all of my accomodations ******************************/
+accRouter.get("/", async (req, res, next) => {
+  try {
+    
+    const accommodation = await AccommodationModel.find();
+    res.send(accommodation);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/************************** get my all of my accomodations ******************************/
+accRouter.get("/my",  JWTAuthMiddleware, hostMiddleware, async (req, res, next) => {
   try {
     console.log(req.headers)
     const accommodation = await AccommodationModel.find({host: req.user._id});
@@ -29,7 +42,7 @@ accRouter.get("/",  JWTAuthMiddleware, hostMiddleware, async (req, res, next) =>
   }
 });
 
-accRouter.get("/:id", JWTAuthMiddleware, hostMiddleware, async (req, res, next) => {
+accRouter.get("/my/:id", JWTAuthMiddleware, hostMiddleware, async (req, res, next) => {
   try {
     const accId = req.params.id;
 

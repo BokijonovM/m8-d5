@@ -2,7 +2,7 @@ import createError from "http-errors";
 import { verifyJWTToken } from "./tools.js";
 
 export const JWTAuthMiddleware = async(req, res, next) => {
-    console.log(req.headers);
+    
     if(!req.headers.authorization){
         next(createError(401, "Please provide bearer token in authorization headers"))
     }else {
