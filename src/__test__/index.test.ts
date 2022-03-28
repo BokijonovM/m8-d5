@@ -48,7 +48,7 @@ describe("Testing the chat endpoints", () => {
 
   /******************* Posting incomplete user ******************/
   it(" missing data should not create a new user using POST /register", async () => {
-    const response = await client.post("/register").send(incompleteUser);
+    const response = await client.post("/users/register").send(incompleteUser);
 
     expect(response.status).toBe(401);
   });
@@ -65,43 +65,43 @@ describe("Testing the chat endpoints", () => {
 
   /******************* login  ******************/
   it("should create a new user using POST /register", async () => {
-    const response = await client.post("/register").send(loginUser);
+    const response = await client.post("/users/register").send(loginUser);
 
     expect(response.status).toBe(201);
-    token = response.body.token;
-    wrongToken = "wrong" + token;
+    token = "Bearer " + response.body.token;
+    wrongToken =  token +  "wrong";
   });
 
   /******************* login   ******************/
   it(" missing data should not create a new user using POST /register", async () => {
-    const response = await client.post("/login").send();
+    const response = await client.post("/users/login").send();
 
     expect(response.status).toBe(401);
   });
 
   /******************* get all by admin ******************/
   it("should create a new user using get /", async () => {
-    const response = await client.get("/me").set("authorization", token);
+    const response = await client.get("/users/me").set("authorization", token);
 
     expect(response.status).toBe(201);
   });
 
   /******************* cannot get  by user ******************/
   it(" missing data should not create a new user using POST /register", async () => {
-    const response = await client.get("/").set("authorization", wrongToken);
+    const response = await client.get("/users").set("authorization", wrongToken);
     expect(response.status).toBe(401);
   });
 
   /******************* get me ******************/
   it("should create a new user using POST /me", async () => {
-    const response = await client.put("/me").set("authorization", token);
+    const response = await client.put("/users/me").set("authorization", token);
 
     expect(response.status).toBe(201);
   });
 
   /******************* cannot get  me ******************/
   it(" missing data should not create a new user using POST /register", async () => {
-    const response = await client.put("/me").set("authorization", wrongToken);
+    const response = await client.put("/users/me").set("authorization", wrongToken);
     expect(response.status).toBe(401);
   });
 
@@ -114,7 +114,7 @@ describe("Testing the chat endpoints", () => {
   /******************* Edit users ******************/
   it("should create a new user using POST /me", async () => {
     const response = await client
-      .put("/me")
+      .put("/users/me")
       .send(editUser)
       .set("authorization", token);
 
@@ -124,7 +124,7 @@ describe("Testing the chat endpoints", () => {
   /******************* edit  users ******************/
   it(" missing data should not create a new user using POST /register", async () => {
     const response = await client
-      .put("/me")
+      .put("/users/me")
       .send()
       .set("authorization", wrongToken);
 
